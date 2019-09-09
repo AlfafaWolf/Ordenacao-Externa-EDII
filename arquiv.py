@@ -26,7 +26,7 @@ def input_generator(num_elements: int, output: str, name: str = 'input', minNum:
     pass
 
 
-def fita_generator(num_fitas: int, output: str, name: str = 'fita') -> list:
+def fita_generator(num_fitas: int, output: str = './', name: str = 'fita') -> list:
     """
     Cria arquivos auxiliares para a funcao de ordenacao externa
 
@@ -49,9 +49,31 @@ def fita_generator(num_fitas: int, output: str, name: str = 'fita') -> list:
 def fita_closer(fitas: list):
     """
     Fecha todos os arquivos que estao armazenados em uma lista
+    
+    Args:
+        fitas: uma lista de aquivos
     """
     try:
         for f in fitas:
             f.close()
     except AttributeError:
         print("ERROR: Um elemento da lista não é um arquivo.")
+
+
+def fita_reader(fitas: list):
+    """
+    Abre no modo de leitura todas as fitas de uma lista,
+    caso a fita esteja aberta, ela é fechada.
+
+    Args:
+        fitas: uma lista de aquivos
+
+    Returns:
+        list: Uma lista de arquivos abertos
+    """
+    r_fitas = list()
+    for f in fitas:
+        if not f.closed:
+            f.close()
+        r_fitas.append(open(f.name, "r"))
+    return r_fitas
